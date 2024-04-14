@@ -55,7 +55,8 @@ $(document).ready(function(){
             "headers": {
                 "Content-Type": "application/json",
                 "Authorization": "ApiKey 2404145860314@ingenieria.usac.edu.gt:47d2aee3-95bf-43f4-a3ab-0d5e258d5153",
-                "Access-Control-Allow-Origin": "*"
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE"
             },
             "data": JSON.stringify({
                 "document": base64Img1,
