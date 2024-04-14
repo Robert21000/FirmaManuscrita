@@ -54,7 +54,8 @@ $(document).ready(function(){
             "crossDomain": true, // Agregar esta línea para habilitar CORS
             "headers": {
                 "Content-Type": "application/json",
-                "Authorization": "ApiKey 2404145860314@ingenieria.usac.edu.gt:47d2aee3-95bf-43f4-a3ab-0d5e258d5153"
+                "Authorization": "ApiKey 2404145860314@ingenieria.usac.edu.gt:47d2aee3-95bf-43f4-a3ab-0d5e258d5153",
+                "Access-Control-Allow-Origin": "*"
             },
             "data": JSON.stringify({
                 "document": base64Img1,
