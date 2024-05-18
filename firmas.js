@@ -1,73 +1,228 @@
 $(document).ready(function(){
 
-    var base64Img1="";
-    var base64Img2=""; 
-    $("#btnSubir1").click(function(){
+/***************************************INICIO FIRMA EXHAUSTIVA **************************************************/
+    var imageList = [];
+    const nombres=[]; 
+    
+    $("#btnComparar2").click(function(){
 
-        var archivo = $('#imagen1')[0].files[0];
-
-        if (archivo) {
-            var lector = new FileReader();
-
+        var files = $('#imagen3')[0].files;
+        var archivoReferencia=$('#imagen4')[0].files[0];
+        if (files.length === 0 || !archivoReferencia) {
+            alert("Debe subir al menos un archivo y el archivo de referencia antes de comparar.");
+        } else {
+        var base64Ref;
+        var lector = new FileReader();
             lector.onload = function(e) {
-                // Convertir la imagen a base64
-                base64Img1 = e.target.result;
-                $('#firma1').attr('src', base64Img1);
+                base64Ref= e.target.result;
+            };
+        lector.readAsDataURL(archivoReferencia);
+
+
+        
+        for(var i = 0; i < files.length; i++) {
+            var reader = new FileReader();
+            nombres.push(files[i].name)
+            reader.onload = function(event){
+                var base64 = event.target.result;
                 
-                // Aquí puedes realizar más acciones, como enviar el archivo mediante AJAX
+                imageList.push(base64);
+                if(imageList.length === files.length) {
+
+                    enviarImagenes(imageList,base64Ref);
+                }
             };
-
-            lector.readAsDataURL(archivo);
-        } else {
-            console.error("No se ha seleccionado ningún archivo.");
+            reader.readAsDataURL(files[i]);
         }
-    });
-
-    $("#btnSubir2").click(function(){
-
-        var archivo = $('#imagen2')[0].files[0];
-
-        if (archivo) {
-            var lector = new FileReader();
-
-            lector.onload = function(e) {
-                // Convertir la imagen a base64
-                base64Img2 = e.target.result;
-                $('#firma2').attr('src', base64Img2);
-                // Aquí puedes realizar más acciones, como enviar el archivo mediante AJAX
-            };
-
-            lector.readAsDataURL(archivo);
-        } else {
-            console.error("No se ha seleccionado ningún archivo.");
-        }
-    });
-
-    $("#btnComparar").click(function(){
-
-        console.log("comparar")
-
-        var settings = {
-            "url": "https://base64.ai/api/signature",
-            "method": "POST",
-            "timeout": 10000,
-            "crossDomain": true, // Agregar esta línea para habilitar CORS
-            "headers": {
-                "Content-Type": "application/json",
-                "Authorization": "ApiKey 2404145860314@ingenieria.usac.edu.gt:47d2aee3-95bf-43f4-a3ab-0d5e258d5153",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE"
-            },
-            "data": JSON.stringify({
-                "document": base64Img1,
-                "queryDocument": base64Img2
-            }),
-        };
-        
-        $.ajax(settings).done(function (response) {
-            console.log(response);
-        });
-        
+    }
     })
 
+
+    var tabla =  $('#tablaFirmas').DataTable(
+        {
+            language: {
+              "decimal":        "",
+              "emptyTable":     "No hay datos disponibles",
+              "info":           "Mostrando _START_ a _END_ de _TOTAL_ registros",
+              "infoEmpty":      "Mostrando 0 a 0 de 0 registros",
+              "infoFiltered":   "(filtrado de _MAX_ total registros)",
+              "infoPostFix":    "",
+              "thousands":      ",",
+              "lengthMenu":     "Mostrar _MENU_ registros",
+              "loadingRecords": "Cargando...",
+              "processing":     "Procesando...",
+              "search":         "Buscar...",
+              "zeroRecords":    "No se encontraron registros coincidentes",
+              "paginate": {
+                "next":       "Siguiente",
+                "previous":   "Anterior",
+                "pagingType": "simple_numbers",
+              },
+              
+              "aria": {
+                "sortAscending":  ": activar para ordenar la columna ascendente",
+                "sortDescending": ": activar para ordenar la columna descendente"
+              }
+            },
+            "lengthMenu": [
+                [3, 5, 10],
+                ['3', '5', '10']
+            ], // Opciones de longitud de página personalizadas
+            "pageLength": 3 // Número predeterminado de filas por página
+          },
+          
+    );
+
+    var listaCsv=[];
+    var medianaCsv=""
+    var mediaCsv=""
+    var desviacionCsv=""
+    function enviarImagenes(imageList,base64Ref) {
+
+        var settings = {
+            "url": "http://18.188.200.41:3000/api/firmaExhaustiva",
+            "method": "POST",
+            "timeout": 10000,
+            "headers": {
+                "Content-Type": "application/json",
+            },
+            "data": JSON.stringify({images:imageList,
+                imgref:base64Ref
+            }),
+             
+        }
+        $.ajax(settings).done(function (response) {
+            
+            if(response.message!=undefined){
+                $("#filaReporte").append('<p style="color:red">'+response.message+'</p>')
+                return;
+            }
+            //** Se guardan los datos para el reporte csv */
+            listaCsv=response.listaS;
+            medianaCsv=response.mediana
+            mediaCsv=response.media
+            desviacionCsv=response.desviacion
+            //******************************************* */
+
+            for(let i=0;i<response.listaS.length;i++){ 
+                var fila = [response.listaS[i]];
+                tabla.row.add([nombres[i],'<img src="' + imageList[i]+ '" alt="Imagen" style="width:150px;height:150px" >',fila]).draw(false);
+            }
+            
+
+            $("#filaReporte").attr("style","display:block;background-color:white");
+            $("#btnReporte").attr("style","display:block; width:150px");
+            $("#btnReporte2").attr("style","display:block; width:150px");
+
+                var contenido="";
+                contenido+="<tr>"
+                // Agrega la fila a la tabla
+                contenido+='<td>'+response.media+'</td>'
+                contenido+='<td>'+response.mediana+'</td>';
+                contenido+='<td>'+response.desviacion+'</td>';
+                contenido+="</tr>"
+            
+            $("#bodyResultados").append(contenido)
+            $("#resultados").attr("style","display:block;background-color:white");
+
+            
+
+
+            //*******************Se crea array de colores dinamicos para las graficas******************** */
+            var dynamicColors = []; 
+
+            for (var i = 0; i < response.listaS.length; i++) {
+                var dynamicColor = 'rgba(' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ', 0.2)';
+                dynamicColors.push(dynamicColor);
+            }
+            //************************************************************ */
+
+            /*******************CONFIGURACION DE LAS GRÁFICAS ******************** */
+            var data = {
+                labels: nombres,
+                datasets: [{
+                    label: 'Firmas',
+                    data: response.listaS,
+                    backgroundColor: dynamicColors,
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            };
+    
+            var options = {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            };
+            //************************************************************************** */
+
+
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var ctx2 = document.getElementById('myChart2').getContext('2d');
+    
+            //*************GRÁFICA DE BARRAS**************** */
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: options
+            });
+
+            //******************GRÁFICA DE LÍNEAS************************ */
+            var myChart = new Chart(ctx2, {
+                type: 'line',
+                data: data,
+                options: options
+            });    
+        })
+    }
+
+
+
+    /**********************REPORTE EN FORMATO PDF ************************* */
+    $("#btnReporte").click(function(){
+       
+        var filaReporte = document.getElementById('tablaFirmas');
+        var graficas= document.getElementById('graficas');
+
+        Promise.all([
+            html2canvas(filaReporte),
+            html2canvas(graficas)
+        ]).then(function(canvases) {
+            var img1 = canvases[0].toDataURL("image/png");
+            var img2 = canvases[1].toDataURL("image/png");
+            
+            var doc = new jsPDF();
+            doc.addImage(img1, 'JPEG', 20, 20);
+            doc.addPage();
+            doc.addImage(img2, 'JPEG', 20, 20);
+            doc.save('Reporte_Firmas.pdf');
+        });
+
+    })
+
+    //**********************REPORTE EN FORMATO CSV***************************** */
+    $("#btnReporte2").click(function(){
+        var contenido="Media,Mediana,Desviación Estándar\n"
+        contenido+=mediaCsv+","+medianaCsv+","+desviacionCsv+"\n"
+        contenido+=",,\n"
+        contenido+="Nombre,Similiitud,\n"
+        for(let i=0;i<listaCsv.length;i++){
+            contenido+=nombres[i]+","+listaCsv[i]+",\n"
+        }
+        var blob = new Blob([contenido], { type: 'text/csv;charset=utf-8;' });
+        var enlace = document.createElement('a');
+        enlace.href = window.URL.createObjectURL(blob);
+        enlace.download = 'datos.csv';
+        enlace.style.display = 'none';
+        document.body.appendChild(enlace);
+        enlace.click();
+        document.body.removeChild(enlace);
+
+    })
+
+
+
+   
 });

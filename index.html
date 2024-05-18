@@ -4,66 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="./Estilos.css">
     <title>Verificación de firmas</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="./firmas.js"></script> 
-    <style>
-
-body {
-            background-image: url('assets/3d-rostro-humano-digital-concepto-inteligencia-artificial-sobre-fondo-blanco-generativo-ai_852169-1092.jpg'); /* Ruta de la imagen de fondo */
-            background-size: cover; /* Ajusta la imagen para cubrir todo el cuerpo */
-            background-position: center; /* Centra la imagen en el cuerpo */
-            background-repeat: no-repeat; /* Evita la repetición de la imagen */
-            font-family: Arial, sans-serif; /* Estilo de fuente para el texto en el cuerpo */
-            margin: 0; /* Elimina el margen predeterminado del cuerpo */
-            padding: 0; /* Elimina el relleno predeterminado del cuerpo */
-        }
-    </style>
-  </style>
 </head>
 <body>
   
-  <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Dropdown
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-          </li>
-        </ul>
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-      </div>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="height: 100px; font-size: x-large;">
+    <a class="navbar-brand" href="#">Usac</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link btn btn-warning" href="index.html">Individual</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link btn btn-danger" href="exhaustiva.html">Exhaustiva</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link btn btn-primary" style="border-color: white;" href="carga.html">Carga por csv</a>
+        </li>
+      </ul>
     </div>
   </nav>
-      <div class="row">
-        <h1 style="text-align: center;"> Bienvenido al sistema de verificación de firmas</h1>        
-      </div>
-    
-      <div style="display: flex;justify-content: center;align-items: center;height: 30vh;margin: 0;">
+  <section>    
+      <div style="display: flex;justify-content: center;align-items: center;height: 10vh;margin: 0;">
         <form id="formulario-imagen" enctype="multipart/form-data">
             <input type="file" id="imagen1" name="imagen" accept="image/*">
             <input type="button" id="btnSubir1" value="Subir" class="btn btn-primary">
@@ -72,27 +39,47 @@ body {
             <input type="button" id="btnSubir2" value="Subir" class="btn btn-primary">
         </form>
     </div>
-    <div style="display: flex;justify-content: center;align-items: center;height: 20vh;" >
+    <div style="display: flex;justify-content: center;align-items: center;margin-top: 30px;" >
 
 
       <div class="card" style="width: 18rem;">
         <div class="card-body">
-          <h5 class="card-title">firma verdadera</h5>
+          <span class="card-title">Firma verdadera</span>
           <img  src="./assets/firmadefault.PNG" id="firma1"  style="width: auto;height: 200px;">
         </div>
       </div>
 
       <div class="card" style="width:auto;margin-left: 60px;">
         <div class="card-body">
-          <h5 class="card-title">firma a analizar</h5>
+          <span class="card-title"><p>Firma para verificar</p> </span>
           <img  src="./assets/firmadefault.PNG" id="firma2"  style="width:auto;height: 200px;">
         </div>
     </div>
     </div>
-    <div class="row" style="margin-top: 60px;display: flex;justify-content: center;">
+    <div class="row" id="progresfirma" style="display: flex;justify-content: center;align-items: center;height: 10vh;">
+
+    </div>
+    <div class="row" style="margin-top: 5px;display: flex;justify-content: center;">
       <button class="btn btn-success" style="width: 200px;height: 60px;" id="btnComparar">Verificar >>></button>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    
+  </section>
+  <section>
+    <div style="display: flex;justify-content: center;align-items: center;height: 30vh;margin: 0;">
+    <div class="row" style="display: flex;justify-content: center;align-items: center;height: 30vh;margin: 0;">
+
+       <div  class="col-sm" id="firmaReferencia">
+
+       </div>
+       
+       <div class="col-sm" id="firmaReconocida">
+
+       </div>
+
+    </div>
+    </div>
+  </section>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="./individual.js"></script> 
   </body>
 </html>

@@ -1,0 +1,56 @@
+body {
+    background-image: url('assets/3d-rostro-humano-digital-concepto-inteligencia-artificial-sobre-fondo-blanco-generativo-ai_852169-1092.jpg'); /* Ruta de la imagen de fondo */
+    background-size: cover; /* Ajusta la imagen para cubrir todo el cuerpo */
+    background-position: center; /* Centra la imagen en el cuerpo */
+    background-repeat: no-repeat; /* Evita la repetición de la imagen */
+    font-family: Arial, sans-serif; /* Estilo de fuente para el texto en el cuerpo */
+    margin: 0; /* Elimina el margen predeterminado del cuerpo */
+    padding: 0; /* Elimina el relleno predeterminado del cuerpo */
+    
+}
+.image-container {
+position: relative;
+display: inline-block;
+}
+
+.rectangle {
+position: absolute;
+top: 30px; /* Posición superior del rectángulo */
+left: 30px; /* Posición izquierda del rectángulo */
+width: 170px; /* Ancho del rectángulo */
+height: 170px; /* Altura del rectángulo */
+border: 2px solid blue; /* Borde rojo de 2 píxeles */
+z-index: 1; /* Asegura que el rectángulo esté encima de la imagen */
+}
+.rectangle2 {
+position: absolute;
+top: 0px; /* Posición superior del rectángulo */
+left: 0px; /* Posición izquierda del rectángulo */
+width: 300px; /* Ancho del rectángulo */
+height: 300px; /* Altura del rectángulo */
+border: 2px solid red; /* Borde rojo de 2 píxeles */
+z-index: 1; /* Asegura que el rectángulo esté encima de la imagen */
+}
+.image-title {
+position: absolute;
+top: 0;
+left: 0;
+background-color: rgba(255, 255, 255, 0.7); /* Fondo semitransparente para el título */
+padding: 5px 10px; /* Espaciado interno para el título */
+font-size: 10px;
+}
+table.dataTable tbody th,
+table.dataTable tbody td {
+    border: 1px solid #ddd;
+}
+
+/* Agrega un borde más grueso a las celdas de encabezado */
+table.dataTable thead th {
+    border: 2px solid #000;
+}
+table {
+border: #b2b2b2 1px solid;
+}
+td, th {
+border: black 1px solid;
+}
