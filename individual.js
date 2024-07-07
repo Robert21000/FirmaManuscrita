@@ -51,7 +51,7 @@ $(document).ready(function(){
         $('#progresfirma').append(progressBar);
 
         var settings = {
-            "url": "http://18.188.200.41:3000/api/firma",
+            "url": "http://18.118.135.233:3000/api/firma",
             "method": "POST",
             "timeout": 10000,
             "headers": {
@@ -68,7 +68,7 @@ $(document).ready(function(){
                     if (evt.lengthComputable) {
                         var percentComplete = evt.loaded / evt.total;
                         // Actualizamos la barra de progreso
-                        progressBar.find('.progress-bar').css('width', percentComplete * 100 + '%').attr('aria-valuenow', percentComplete * 100).text(percentComplete * 100 + '%');
+                        progressBar.find('.progress-bar').css('width', percentComplete * 100 + '%').attr('aria-valuenow', percentComplete * 100).text('progreso..');
                     }
                 }, false);
                 return xhr;
