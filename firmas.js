@@ -78,10 +78,9 @@ $(document).ready(function(){
     var mediaCsv=""
     var desviacionCsv=""
     function enviarImagenes(imageList,base64Ref) {
-        var progressBar = $('<div class="progress" style="margin-top: 20px;"><div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div></div>');
-        $('#progresfirma').append(progressBar);
+
         var settings = {
-            "url": "http://18.118.135.233:3000/api/firmaExhaustiva",
+            "url": "http://18.188.200.41:3000/api/firmaExhaustiva",
             "method": "POST",
             "timeout": 10000,
             "headers": {
@@ -90,21 +89,8 @@ $(document).ready(function(){
             "data": JSON.stringify({images:imageList,
                 imgref:base64Ref
             }),
-        
-            xhr: function() {
-                var xhr = new window.XMLHttpRequest();
-                // Establece el listener de progreso
-                xhr.upload.addEventListener("progress", function(evt) {
-                    if (evt.lengthComputable) {
-                        var percentComplete = evt.loaded / evt.total;
-                        // Actualizamos la barra de progreso
-                        progressBar.find('.progress-bar').css('width', percentComplete * 100 + '%').attr('aria-valuenow', percentComplete * 100).text('progreso..');
-                    }
-                }, false);
-                return xhr;
-            }
+             
         }
-
         $.ajax(settings).done(function (response) {
             
             if(response.message!=undefined){
