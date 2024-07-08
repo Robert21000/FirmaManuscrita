@@ -51,7 +51,7 @@ $(document).ready(function(){
         $('#progresfirma').append(progressBar);
 
         var settings = {
-            "url": "http://18.188.200.41:3000/api/firma",
+            "url": "http://18.118.135.233:3000/api/firma",
             "method": "POST",
             "timeout": 10000,
             "headers": {

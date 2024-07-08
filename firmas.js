@@ -80,7 +80,7 @@ $(document).ready(function(){
     function enviarImagenes(imageList,base64Ref) {
 
         var settings = {
-            "url": "http://18.188.200.41:3000/api/firmaExhaustiva",
+            "url": "http://18.118.135.233:3000/api/firmaExhaustiva",
             "method": "POST",
             "timeout": 10000,
             "headers": {

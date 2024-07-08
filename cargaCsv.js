@@ -59,7 +59,7 @@ $(document).ready(function(){
                 var firmaVerdadera = campos[0];
                 var firmaVerificar = campos[1];
                 var settings = {
-                    "url": "http://18.188.200.41:3000/api/firmaCsv",
+                    "url": "http://18.118.135.233:3000/api/firmaCsv",
                     "method": "POST",
                     "timeout": 10000,
                     "headers": {
