@@ -68,7 +68,7 @@ $(document).ready(function(){
                     if (evt.lengthComputable) {
                         var percentComplete = evt.loaded / evt.total;
                         // Actualizamos la barra de progreso
-                        progressBar.find('.progress-bar').css('width', percentComplete * 100 + '%').attr('aria-valuenow', percentComplete * 100).text(percentComplete * 100 + '%');
+                        progressBar.find('.progress-bar').css('width', percentComplete * 100 + '%').attr('aria-valuenow', percentComplete * 100).text('progreso...');
                     }
                 }, false);
                 return xhr;
@@ -88,7 +88,7 @@ $(document).ready(function(){
                             if(response.query[i].similarities.length>0){
                                 similitud=response.query[i].similarities[0]*100;
                             }
-                            var bloqueFirma=$('<div class="image-container"><img  src="'+response.query[i].image+'" style="height:200px;width: 200px;margin-top: 10px;margin-left: 10px;"><div class="rectangle"></div><div class="image-title">Similitud: '+similitud+'%</div></div>');
+                            var bloqueFirma=$('<div class="image-container"><img  src="'+response.query[i].image+'" style="height:200px;width: 200px;margin-top: 10px;margin-left: 10px;"><div class="rectangle"></div><div class="image-title" style="color:red;font-size:20px">Similitud: '+similitud.toFixed(2)+'%</div></div>');
                             $('#firmaReconocida').append(bloqueFirma);
                         }
                     }else{
