@@ -61,7 +61,7 @@ $(document).ready(function(){
                 var settings = {
                     "url": "http://18.118.135.233:3000/api/firmaCsv",
                     "method": "POST",
-                    "timeout": 10000,
+                    "timeout": 100000,
                     "headers": {
                         "Content-Type": "application/json"
                     },
