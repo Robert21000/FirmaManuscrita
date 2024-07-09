@@ -47,6 +47,8 @@ $(document).ready(function(){
             return;
         }
         var lector = new FileReader();
+        var progressBar = $('<div class="progress" style="margin-top: 20px;"><div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div></div>');
+        $('#progresfirma').append(progressBar);
         lector.onload = function(e) {
             var contenido = e.target.result;
             var lineas = contenido.split(/\r\n|\n/);
@@ -69,8 +71,21 @@ $(document).ready(function(){
                         "document": firmaVerdadera,
                         "queryDocument": firmaVerificar
                     }),
-                   
+                 
+                    xhr: function() {
+                        var xhr = new window.XMLHttpRequest();
+                        // Establece el listener de progreso
+                        xhr.upload.addEventListener("progress", function(evt) {
+                            if (evt.lengthComputable) {
+                                var percentComplete = evt.loaded / evt.total;
+                                // Actualizamos la barra de progreso
+                                progressBar.find('.progress-bar').css('width', percentComplete * 100 + '%').attr('aria-valuenow', percentComplete * 100).text('progreso..');
+                            }
+                        }, false);
+                        return xhr;
+                    }
                 };
+                
                 $.ajax(settings).done(function (response) {
                     if(response.message!=undefined){
                         $("#filaReporte").append('<p style="color:red">'+response.message+'</p>');
